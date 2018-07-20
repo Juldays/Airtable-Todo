@@ -2,27 +2,26 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+@import url('https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css');
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+
+#title {
+  margin-top: 25px;
+  font-family: "Satisfy";
+  font-size: 85px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+#form {
+  margin-left: auto;
+  margin-right: auto; 
 }
 
-.App-title {
-  font-size: 1.5em;
+#form h5 {
+  margin-top: 10px;
+  text-align: left;
 }
 
-.App-intro {
-  font-size: large;
+fieldset input {
+  margin: 5px 5px 5px 15px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}

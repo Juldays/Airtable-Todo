@@ -1,13 +1,14 @@
 ﻿using AirtableApiClient;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Todo.Models;
 
 namespace Todo.Services
 {
     public interface IAirtableService
     {
-        int Create(RecordCreateRequest req);
+        Task<AirtableCreateUpdateReplaceRecordResponse> Create(RecordCreateRequest req);
         //List<Record> GetAll();
-        AirtableRecord GetById(int id);
+        Task<AirtableRecord> GetById(int id);
     }
 }

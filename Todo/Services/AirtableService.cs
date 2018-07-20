@@ -21,14 +21,15 @@ namespace Todo.Services
             
         }
 
-        public AirtableRecord GetById(int id)
+        public async Task<AirtableRecord> GetById(int id)
         {
             var tableRecord = new AirtableRecord();
             using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
             {
                 AirtableRecord record = new AirtableRecord();
-                Task<AirtableRetrieveRecordResponse> retrieveTask = airtableBase.RetrieveRecord(tableName, id.ToString());
-                var retrieveResponse = retrieveTask.Result;
+                var retrieveResponse = await airtableBase.RetrieveRecord(tableName, id.ToString());
+                //Task<AirtableRetrieveRecordResponse> retrieveTask = airtableBase.RetrieveRecord(tableName, id.ToString());
+                //var retrieveResponse = retrieveTask.Result;
                 if (!retrieveResponse.Success)
                 {
                     if (retrieveResponse.AirtableApiError is AirtableApiException)
@@ -59,7 +60,7 @@ namespace Todo.Services
             return tableRecord;
         }
 
-        public int Create(RecordCreateRequest req)
+        public async Task<AirtableCreateUpdateReplaceRecordResponse> Create(RecordCreateRequest req)
         {
             using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
             {
@@ -69,9 +70,10 @@ namespace Todo.Services
                 fields.AddField("Status", req.Status);
                 fields.AddField("Due Date", req.DueDate);
 
-                Task<AirtableCreateUpdateReplaceRecordResponse> createTask = airtableBase.CreateRecord(tableName, fields, true);
-                var response = createTask.Result;
-                var id = createTask.Id;
+                AirtableCreateUpdateReplaceRecordResponse response = await airtableBase.CreateRecord(tableName, fields, true);
+                //Task<AirtableCreateUpdateReplaceRecordResponse> createTask = airtableBase.CreateRecord(tableName, fields, true);
+                //var response = await airtableBase.CreateRecord(tableName, fields, true);
+                //var id = response.Id;
 
                 if (!response.Success)
                 {
@@ -87,10 +89,10 @@ namespace Todo.Services
                 }
                 else
                 {
-                    var record = response.Record;
                     // Do something with your created record.
+                    Console.WriteLine("ok");
                 }
-                return id;
+                return response;
             }
         }
     }

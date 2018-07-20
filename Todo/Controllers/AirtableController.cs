@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Todo.Models;
 using Todo.Services;
@@ -20,14 +21,14 @@ namespace Todo.Controllers
         }
 
         [Route("api/airtable/{id:int}"), HttpGet]
-        public HttpResponseMessage GetById(int id)
+        public async Task<HttpResponseMessage> GetById(int id)
         {
-            AirtableRecord record = airtableService.GetById(id);
+            AirtableRecord record = await airtableService.GetById(id);
             return Request.CreateResponse(HttpStatusCode.OK, record);
         }
 
         [Route("api/airtable"), HttpPost]
-        public HttpResponseMessage Create(RecordCreateRequest req)
+        public async Task<HttpResponseMessage> Create(RecordCreateRequest req)
         {
             if (req == null)
             {
@@ -39,8 +40,9 @@ namespace Todo.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            int id = airtableService.Create(req);
-            return Request.CreateResponse(HttpStatusCode.OK, ModelState);
+            AirtableCreateUpdateReplaceRecordResponse id = await airtableService.Create(req);
+            return Request.CreateResponse(HttpStatusCode.OK, id);
+
         }
     }
 }
