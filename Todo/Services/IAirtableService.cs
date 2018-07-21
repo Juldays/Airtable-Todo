@@ -8,7 +8,8 @@ namespace Todo.Services
     public interface IAirtableService
     {
         Task<AirtableCreateUpdateReplaceRecordResponse> Create(RecordCreateRequest req);
-        //List<Record> GetAll();
-        Task<AirtableRecord> GetById(int id);
+        Task<AirtableListRecordsResponse> GetAll();
+        Task<AirtableRecord> GetById(string id);
+        Task<AirtableCreateUpdateReplaceRecordResponse> UpdateRecord(RecordUpdateRequest req);
     }
 }

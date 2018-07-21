@@ -1,5 +1,10 @@
 import React from "react";
 import { todoRecord_create } from "./server";
+import {
+  RadioGroup,
+  RadioButton,
+  ReversedRadioButton
+} from "react-radio-buttons";
 
 class Todo extends React.Component {
   state = {
@@ -13,13 +18,13 @@ class Todo extends React.Component {
     const data = {
       title: this.state.title,
       priority: this.state.priority,
-      status: this.state.status,
+      status: "In Progress",
       dueDate: this.state.dueDate
     };
     debugger;
     todoRecord_create(data)
       .then(resp => {
-          debugger;
+        debugger;
         this.setState({
           title: "",
           priority: "",
@@ -32,11 +37,11 @@ class Todo extends React.Component {
       });
   };
 
-  onStatusChanged = (e) => {
+  handleOptionChange = e => {
     this.setState({
-        status: e.target.value
+      priority: e.target.value
     });
-  }
+  };
 
   render() {
     return (
@@ -44,7 +49,6 @@ class Todo extends React.Component {
         <h2 className="animated rubberBand" id="title">
           Todo List
         </h2>
-
         <div className="container row">
           <div className="col-md-3" id="form">
             <form>
@@ -66,57 +70,25 @@ class Todo extends React.Component {
               >
                 <input
                   type="radio"
-                  name="priority"
-                  id="high"
-                  value={this.state.priority}
-                  onChange={e => {
-                    this.setState({ priority: e.target.value });
-                  }}
+                  value="high"
+                  checked={this.state.priority === "high"}
+                  onChange={this.handleOptionChange}
                 />
                 <label for="high">High</label>
                 <input
                   type="radio"
-                  name="priority"
-                  id="medium"
-                  value={this.state.priority}
-                  onChange={e => {
-                    this.setState({ priority: e.target.value });
-                  }}
+                  value="medium"
+                  checked={this.state.priority === "medium"}
+                  onChange={this.handleOptionChange}
                 />
                 <label for="medium">Medium</label>
                 <input
                   type="radio"
-                  name="priority"
-                  id="low"
-                  value={this.state.priority}
-                  onChange={e => {
-                    this.setState({ priority: e.target.value });
-                  }}
+                  value="low"
+                  checked={this.state.priority === "low"}
+                  onChange={this.handleOptionChange}
                 />
                 <label for="low">Low</label>
-              </fieldset>
-              <h5>Status</h5>
-              <fieldset
-                id="status"
-                data-role="controlgroup"
-                data-type="horizontal"
-              >
-                <input
-                  type="radio"
-                  name="status"
-                  id="inProgress"
-                  value={this.state.status}
-                  onClick={this.onStatusChanged}
-                />
-                <label for="inProgress">In Progress</label>
-                <input
-                  type="radio"
-                  name="status"
-                  id="complete"
-                  value={this.state.status}
-                  onClick={this.onStatusChanged}
-                />
-                <label for="complete">Complete</label>
               </fieldset>
               <h5>Due Date</h5>
               <input
